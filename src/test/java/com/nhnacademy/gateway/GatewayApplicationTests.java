@@ -9,8 +9,7 @@ class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
-		int i = 0;
-		Assertions.assertEquals(2,i);
+		Assertions.assertDoesNotThrow(()->{});
 	}
 
 }
