@@ -2,6 +2,7 @@ package com.nhnacademy.gateway.filter;
 
 import com.nhnacademy.gateway.key.JwtProperty;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -31,6 +32,10 @@ public class JwtAuthorizationHeaderFilter extends AbstractGatewayFilterFactory<J
         public String getKey(){
             return this.key;
         }
+
+        public void setKey(String key){
+            this.key=key;
+        }
     }
 
     @Override
@@ -54,15 +59,13 @@ public class JwtAuthorizationHeaderFilter extends AbstractGatewayFilterFactory<J
                         .parseClaimsJws(jwtToken)
                         .getBody();
 
-                Date expirationDate = claims.getExpiration();
-                if (expirationDate !=null && expirationDate.before(new Date())){
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access 토큰만료");
-                }
-
 
                 exchange = exchange.mutate().request(builder -> builder.header("X-USER-ID", claims.getSubject())).build();
 
-            } catch (Exception e) {
+            }catch(ExpiredJwtException e){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Token이 만료 되었습니다.");
+            }
+            catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
             }
             return chain.filter(exchange);
