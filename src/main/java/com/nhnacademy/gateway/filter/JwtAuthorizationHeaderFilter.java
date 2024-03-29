@@ -10,11 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import io.jsonwebtoken.security.Keys;
 
 @Slf4j
 @Component
 public class JwtAuthorizationHeaderFilter extends AbstractGatewayFilterFactory<JwtAuthorizationHeaderFilter.Config> {
 
+    private String jwtSecretKey = "secret-Key";
     public JwtAuthorizationHeaderFilter(){
         super(Config.class);
     }
@@ -43,6 +45,7 @@ public class JwtAuthorizationHeaderFilter extends AbstractGatewayFilterFactory<J
 
             try {
                 Claims claims = Jwts.parserBuilder()
+                        .setSigningKey(Keys.hmacShaKeyFor(jwtSecretKey.getBytes()))
                         .build()
                         .parseClaimsJws(jwtToken)
                         .getBody();
