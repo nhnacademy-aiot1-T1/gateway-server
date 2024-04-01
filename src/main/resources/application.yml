@@ -5,9 +5,6 @@ spring:
     gateway:
       default-filters:
         - name: LoggingFilter
-        - args:
-            preLogger: true
-            postLogger: true
 
       routes:
         - id: auth-service

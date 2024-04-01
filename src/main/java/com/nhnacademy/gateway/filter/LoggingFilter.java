@@ -16,9 +16,8 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
     super(Config.class);
   }
 
-  public static class Config {
-    boolean preLogger;
-    boolean postLogger;
+  public interface Config {
+
   }
 
   @Override
@@ -26,14 +25,9 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
     return (exchange, chain) -> {
       ServerHttpRequest request = exchange.getRequest();
       ServerHttpResponse response = exchange.getResponse();
-      if (config.preLogger) {
-        log.info("pre filter: request id -> {}", request.getId());
-      }
-      return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-            if (config.postLogger) {
-              log.info("response: {} - {}", request.getId(), response.getStatusCode());
-            }
-          }
+      log.info("pre filter: request id -> {}", request.getId());
+      return chain.filter(exchange).then(Mono.fromRunnable(
+          () -> log.info("response: {} - {}", request.getId(), response.getStatusCode())
       ));
     };
   }
