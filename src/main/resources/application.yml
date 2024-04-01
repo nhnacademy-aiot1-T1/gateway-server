@@ -3,6 +3,12 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      default-filters:
+        - name: LoggingFilter
+        - args:
+            preLogger: true
+            postLogger: true
+
       routes:
         - id: auth-service
           uri: lb://auth-service
