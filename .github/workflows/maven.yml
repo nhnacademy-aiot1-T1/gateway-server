@@ -14,7 +14,9 @@ on:
       - develop
       - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+        - develop
+        - main
 
 jobs:
   build:
