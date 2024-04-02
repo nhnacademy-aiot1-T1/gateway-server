@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GatewayApplicationTests {
 
 	@Test
-	void testJwtToeknValidity() {
+	void contextLoads() {
 		String sub = "1234567890";
 		String name = "John Doe";
 		int iat = 1516239022;
