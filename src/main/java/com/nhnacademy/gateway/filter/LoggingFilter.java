@@ -3,6 +3,7 @@ package com.nhnacademy.gateway.filter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ import reactor.core.publisher.Mono;
  */
 @Component
 @Slf4j
-public class LoggingFilter implements GatewayFilter {
+public class LoggingFilter implements GatewayFilter, Ordered {
+
 
   /**
    * 요청이 들어왔을 때와 해당 요청에 대한 응답 시 로그를 남기는 메서드입니다
@@ -34,5 +36,10 @@ public class LoggingFilter implements GatewayFilter {
     log.info("request: {} - {} {}", request.getId(), request.getMethodValue(), request.getURI());
     return chain.filter(exchange).then(Mono.fromRunnable(
         () -> log.info("response: {} - {}", request.getId(), response.getStatusCode())));
+  }
+
+  @Override
+  public int getOrder() {
+    return -1;
   }
 }
