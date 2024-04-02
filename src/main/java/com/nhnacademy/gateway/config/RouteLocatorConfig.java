@@ -22,15 +22,6 @@ public class RouteLocatorConfig {
                         .filters(f->f.filter(jwtAuthorizationHeaderFilter.apply(new JwtAuthorizationHeaderFilter.Config())))
                         .uri("lb://AUTH-SERVER")
                 )
-//                .route("shoppingmall-api", p->p.path("/api/shop/**")
-//                        .and()
-//                        .weight("shoppingmall-api",50)
-//                        .uri("http://localhost:8200")
-//                )
-//                .route("shoppingmall-api", p->p.path("/api/shop/**").
-//                        and()
-//                        .weight("shoppingmall-api",50)
-//                        .uri("http://localhost:8300"))
                 .build();
 
     }
