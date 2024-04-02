@@ -18,10 +18,9 @@ public class RouteLocatorConfig {
     public RouteLocator myRoute(RouteLocatorBuilder builder ) {
 
         return builder.routes()
-                .route("auth-api", p->p.path("/api/auth/**")
-                        //해당 필터는 account-api 서비스에만 적용됩니다.
+                .route("auth-api", p->p.path("/auth")
                         .filters(f->f.filter(jwtAuthorizationHeaderFilter.apply(new JwtAuthorizationHeaderFilter.Config())))
-                        .uri("http://localhost:8100")
+                        .uri("lb://AUTH-SERVER")
                 )
 //                .route("shoppingmall-api", p->p.path("/api/shop/**")
 //                        .and()
