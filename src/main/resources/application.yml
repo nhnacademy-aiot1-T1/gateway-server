@@ -1,11 +1,13 @@
 spring:
+  profiles:
+    active: @spring.profiles.active@
   application:
     name: gateway-service
   cloud:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://auth-service
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/login
 
