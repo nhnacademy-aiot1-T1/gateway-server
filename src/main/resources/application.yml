@@ -19,6 +19,7 @@ spring:
             - Method= POST
         # 로그아웃 필터
         - id: user-get-route
+          uri: lb://ACCOUNT-SERVICE
           predicates:
             - Path=/api/logout
             - Method= POST
