@@ -8,38 +8,45 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
 @Component
-@RequiredArgsConstructor
-public class LogoutFilter implements GatewayFilter {
+public class LogoutFilter extends AbstractGatewayFilterFactory<LogoutFilter.Config> {
 
   private final ObjectMapper objectMapper;
   private final RedisTemplate<String, Object> redisTemplate;
   private final ClockHolder clockHolder;
 
-  @Override
-  public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+  public LogoutFilter(ObjectMapper objectMapper, RedisTemplate<String, Object> redisTemplate, ClockHolder clockHolder) {
+    super(LogoutFilter.Config.class);
+    this.objectMapper = objectMapper;
+    this.redisTemplate = redisTemplate;
+    this.clockHolder = clockHolder;
 
-    String token = findAccessToken(exchange.getRequest());
-    long expirationTime = getTokenExpirationTime(token);
-
-    ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-    valueOperations.set(token, "", expirationTime, TimeUnit.SECONDS);
-
-    return chain.filter(exchange);
   }
+
+  @Override
+  public GatewayFilter apply(Config config) {
+    return (exchange, chain) -> {
+      String token = findAccessToken(exchange.getRequest());
+      long expirationTime = getTokenExpirationTime(token);
+
+      ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+      valueOperations.set(token, "", expirationTime, TimeUnit.SECONDS);
+
+      return chain.filter(exchange);
+    };
+  }
+
   private String findAccessToken(ServerHttpRequest request) {
     return Objects.requireNonNull(request.getHeaders().get("Authorization")).get(0).substring(7);
   }
+
   public long getTokenExpirationTime(String token) {
 
     String[] parts = token.split("\\.");
@@ -54,5 +61,11 @@ public class LogoutFilter implements GatewayFilter {
     }
     long expirationTime = jsonPayload.get("exp").asLong();
     return expirationTime - currentTime;
+  }
+
+
+
+  public static class Config {
+
   }
 }
