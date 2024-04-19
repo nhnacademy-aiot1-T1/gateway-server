@@ -31,7 +31,7 @@ class JwtUtilTest {
 
     validToken = Jwts.builder()
         .setHeaderParam("type","jwt")
-        .claim("pk", "test")
+        .claim("userId", "test")
         .setIssuedAt(now)
         .setExpiration(new Date(now.getTime() + 1000 * 60 * 60 * 24 * 7))
         .signWith(Keys.hmacShaKeyFor(testSecret.getBytes()), SignatureAlgorithm.HS256)
