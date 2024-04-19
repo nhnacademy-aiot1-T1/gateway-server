@@ -17,15 +17,20 @@ spring:
           predicates:
             - Path=/api/users
             - Method= POST
-        # 로그아웃 필터
-        - id: user-get-route
-          uri: lb://ACCOUNT-SERVICE
+        # 로그아웃 라우팅
+        - id: auth-logout-route
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/logout
             - Method= POST
           filters:
-            -  LogoutFilter
-
+            - JwtAuthenticationFilter
+        #토큰 재발급 라우팅
+        - id: auth-refresh-route
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/refresh
+            - Method= POST
 server:
   port: 8080
 
@@ -43,3 +48,5 @@ management:
     web:
       exposure:
         include: info, health
+jwt:
+  secret: ${jwt.secret}
