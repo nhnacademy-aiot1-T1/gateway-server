@@ -26,7 +26,7 @@ public class JwtUtil {
   }
 
   /**
-   * jwt 토큰에서 사용자 아이디를 추출하는 메서드
+   * jwt 토큰에서 사용자 아이디를 추출하는 메서드.
    *
    * @param token jwt 토큰
    * @return 사용자 아이디
@@ -36,10 +36,10 @@ public class JwtUtil {
   }
 
   /**
-   * jwt 토큰에서 클레임을 추출하는 메서드
+   * jwt 토큰에서 클레임을 추출하는 메서드.
    *
    * @param token          jwt 토큰
-   * @param claimsResolver Function<Claims, T>
+   * @param claimsResolver 특정 클레임을 추출하는 함수
    * @return T
    */
   private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -48,7 +48,7 @@ public class JwtUtil {
   }
 
   /**
-   * jwt 토큰에서 모든 클레임을 추출하는 메서드
+   * jwt 토큰에서 모든 클레임을 추출하는 메서드.
    *
    * @param token String
    * @return Claims
