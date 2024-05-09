@@ -1,6 +1,8 @@
+server:
+  port: 8080
 spring:
   profiles:
-    active: '@spring.profiles.active@'
+    active: prod
   application:
     name: gateway-service
   cloud:
@@ -21,7 +23,7 @@ spring:
         - id: auth-logout-route
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/logout
+            - Path=/api/auth/logout
             - Method= POST
           filters:
             - JwtAuthenticationFilter
@@ -29,10 +31,12 @@ spring:
         - id: auth-refresh-route
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/refresh
+            - Path=/api/auth/reissue
             - Method= POST
-server:
-  port: 8080
+        - id : auth-oauth-login-route
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/oauth-login
 
 eureka:
   client:
@@ -48,5 +52,3 @@ management:
     web:
       exposure:
         include: info, health
-jwt:
-  secret: ${jwt.secret}

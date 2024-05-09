@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class GatewayApplicationTests {
 
-//  @Test
-//  void contextLoads() {
-//    Assertions.assertDoesNotThrow(() -> {
-//    });
-//  }
+  @Test
+  void contextLoads() {
+    Assertions.assertDoesNotThrow(() -> {
+    });
+  }
 
 }
