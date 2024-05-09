@@ -1,9 +1,0 @@
-server:
-  port: 8080
-
-eureka:
-    serviceUrl:
-      defaultZone: http://192.168.0.23:8761/eureka
-
-jwt:
-  secret: ${jwt.secret}
