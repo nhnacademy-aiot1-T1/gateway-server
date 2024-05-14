@@ -15,13 +15,13 @@ spring:
         - id: user-register-route
           uri: lb://ACCOUNT-SERVICE
           predicates:
-            - Path=/api/users
+            - Path=/api/account/users
             - Method= POST
         # 로그아웃 라우팅
         - id: auth-logout-route
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/logout
+            - Path=/api/auth/logout
             - Method= POST
           filters:
             - JwtAuthenticationFilter
@@ -29,7 +29,7 @@ spring:
         - id: auth-refresh-route
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/refresh
+            - Path=/api/auth/refresh
             - Method= POST
 server:
   port: 8080
