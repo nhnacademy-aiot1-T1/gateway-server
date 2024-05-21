@@ -29,7 +29,7 @@ spring:
         - id: auth-refresh-route
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/auth/refresh
+            - Path=/api/auth/reissue
             - Method= POST
         # oauth 로그인 api 라우팅
         - id: oauth-login-route
