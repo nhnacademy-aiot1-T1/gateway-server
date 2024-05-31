@@ -20,8 +20,6 @@ public class JwtUtil {
   private String secret;
   private static final String USER_ID_KEY = "userId";
 
-  private static final String USER_ID_KEY = "userId";
-
   private Key getSigningKey() {
     return Keys.hmacShaKeyFor(secret.getBytes());
   }
