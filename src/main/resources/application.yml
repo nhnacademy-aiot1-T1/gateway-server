@@ -17,7 +17,7 @@ spring:
         - id: user-register-route
           uri: lb://ACCOUNT-SERVICE
           predicates:
-            - Path=/api/users
+            - Path=/api/account/users
             - Method= POST
         # 로그아웃 라우팅
         - id: auth-logout-route
@@ -33,11 +33,22 @@ spring:
           predicates:
             - Path=/api/auth/reissue
             - Method= POST
-        - id : auth-oauth-login-route
+        # oauth 로그인 api 라우팅
+        - id: oauth-login-route
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/oauth-login
-
+        # oauth 계정의 회원 정보 조회 api 라우팅
+        - id: oauth-user-info-route
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/api/account/oauth/users/{oauthId}
+            - Method= GET
+        # oauth 유저 정보 등록 api 라우팅
+        - id: oauth-user-register-route
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/api/account/oauth/users
 eureka:
   client:
     register-with-eureka: true
