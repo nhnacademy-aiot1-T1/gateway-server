@@ -31,7 +31,7 @@ class JwtUtilTest {
 
     validToken = Jwts.builder()
         .setHeaderParam("type","jwt")
-        .claim("userId", "test")
+        .claim("userId", 1)
         .setIssuedAt(now)
         .setExpiration(new Date(now.getTime() + 1000 * 60 * 60 * 24 * 7))
         .signWith(Keys.hmacShaKeyFor(testSecret.getBytes()), SignatureAlgorithm.HS256)
@@ -41,7 +41,7 @@ class JwtUtilTest {
   @Test
   @DisplayName("유효한 토큰이 주어지면 사용자 아이디를 추출하는 테스트")
   void extractUserIdWithValidToken() {
-    String expectedUserId = "test";
+    String expectedUserId = "1";
     String actualUserId = jwtUtil.extractUserId(validToken);
     assertEquals(expectedUserId, actualUserId);
   }
