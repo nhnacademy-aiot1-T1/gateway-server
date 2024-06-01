@@ -1,0 +1,8 @@
+
+logging:
+  level:
+    root: info
+eureka:
+  client:
+    enabled: false
+

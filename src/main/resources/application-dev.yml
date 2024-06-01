@@ -1,7 +1,21 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka
+server:
+  port: 8080
+
+spring:
+  config:
+    import:
+      - classpath:/dev/eureka.yml
+      - classpath:/dev/gateway-route.yml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
 
 jwt:
   secret: Ny0pm2CWIAST07ElsTAVZgCqJKJd2bE9lpKyewuOhyyKoBApt1Ny0pm2CWIAST07ElsTAVZgCqJKJd2bE9lpKyewuOhyyKoBApt1
+
+logging:
+  level:
+    root: debug
