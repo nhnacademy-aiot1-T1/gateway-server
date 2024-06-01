@@ -1,51 +1,8 @@
-server:
-  port: 8080
 spring:
   profiles:
-    active: prod
+    active: dev
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      routes:
-        #  로그인 api 라우팅
-        - id: auth-login-route
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/api/auth/login
-        #  회원가입 api 라우팅
-        - id: user-register-route
-          uri: lb://ACCOUNT-SERVICE
-          predicates:
-            - Path=/api/users
-            - Method= POST
-        # 로그아웃 라우팅
-        - id: auth-logout-route
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/api/auth/logout
-            - Method= POST
-          filters:
-            - JwtAuthenticationFilter
-        #토큰 재발급 라우팅
-        - id: auth-refresh-route
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/api/auth/reissue
-            - Method= POST
-        - id : auth-oauth-login-route
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/api/auth/oauth-login
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://192.168.0.23:8761/eureka
-  instance:
-    prefer-ip-address: true
 
 management:
   endpoints:

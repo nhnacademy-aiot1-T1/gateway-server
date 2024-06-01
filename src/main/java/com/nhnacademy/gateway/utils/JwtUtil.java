@@ -18,7 +18,6 @@ public class JwtUtil {
 
   @Value("${jwt.secret}")
   private String secret;
-
   private static final String USER_ID_KEY = "userId";
 
   private Key getSigningKey() {
@@ -32,7 +31,7 @@ public class JwtUtil {
    * @return 사용자 아이디
    */
   public String extractUserId(String token) {
-    return extractClaim(token, (claims -> claims.get(USER_ID_KEY, String.class)));
+    return extractClaim(token, (claims -> String.valueOf(claims.get(USER_ID_KEY, Long.class))));
   }
 
   /**

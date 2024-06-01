@@ -1,2 +1,8 @@
 jwt:
   secret: ${jwt.secret}
+
+spring:
+  config:
+    import:
+      - classpath:/prod/eureka.yml
+      - classpath:/prod/gateway-route.yml
