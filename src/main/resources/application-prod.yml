@@ -1,8 +1,7 @@
 jwt:
   secret: ${jwt.secret}
 
-spring:
-  config:
-    import:
-      - classpath:/prod/eureka.yml
-      - classpath:/prod/gateway-route.yml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.23:8761/eureka
