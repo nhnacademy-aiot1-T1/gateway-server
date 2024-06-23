@@ -1,0 +1,7 @@
+jwt:
+  secret: ${jwt.secret}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.27:8761/eureka
