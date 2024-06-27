@@ -4,4 +4,4 @@ jwt:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://192.168.0.27:8761/eureka
+      defaultZone: http://eureka:8761/eureka
