@@ -49,5 +49,5 @@ jobs:
             docker pull "${{ secrets.DOCKER_USERNAME }}"/api-gateway
             docker stop api-gateway || true
             docker rm api-gateway || true 
-            docker run -d --name api-gateway "${{ secrets.DOCKER_USERNAME }}"/api-gateway
+            docker run -d --network t1bridge --name api-gateway "${{ secrets.DOCKER_USERNAME }}"/api-gateway
 
